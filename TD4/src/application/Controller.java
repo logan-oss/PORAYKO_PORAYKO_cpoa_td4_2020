@@ -15,6 +15,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import modele.Produit;
 
 public class Controller implements Initializable{
@@ -54,8 +55,28 @@ public class Controller implements Initializable{
 	// Event Listener on Button[#btn_creer].onAction
 	@FXML
 	public void creerModele(ActionEvent event) {
-		Produit p=new Produit(this.txt_nom.getText(),this.txt_desc.getText(),Float.parseFloat(this.txt_tarif.getText()),this.cbx_categ.getSelectionModel().getSelectedItem());
-		this.lbl_affi.setText(p.toString());
+		String message="";
+		if(this.txt_nom.getText().trim().equals(""))
+			message=message+"nom";
+		if(this.txt_desc.getText().trim().equals(""))
+			message=message+" description ";
+		
+		try {
+			Float.parseFloat(this.txt_tarif.getText());
+		} catch (NumberFormatException e) {
+			message=message+"\n Erreur tarif invalide !!";
+		}
+		
+		if(message!="") {
+			this.lbl_affi.setText("Erreur Champ Vide ! ("+message+")");
+			this.lbl_affi.setTextFill(Color.RED);
+			
+		}
+		else {
+			Produit p=new Produit(this.txt_nom.getText(),this.txt_desc.getText(),Float.parseFloat(this.txt_tarif.getText()),this.cbx_categ.getSelectionModel().getSelectedItem());
+			this.lbl_affi.setText(p.toString());
+			this.lbl_affi.setTextFill(Color.BLACK);
+		}
 	}
 
 	@Override
